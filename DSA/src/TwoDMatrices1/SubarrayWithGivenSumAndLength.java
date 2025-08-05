@@ -15,15 +15,14 @@ public class SubarrayWithGivenSumAndLength {
     }
     static int solve(int[] arr, int x, int y) {
         int n = arr.length;
+        int s =0;
         for (int i=0; i<n; i++) {
-            for (int j=i;j<n; j++){
-                int s =0;
-                for (int k=i; k<=j;k++){
-                    s += arr[k];
-                }
-                if (s==y && (j-i+1)==x){
-                    return 1;
-                }
+            s += arr[i];
+            if (i>x-1) {
+                s -= arr[i-x];
+            }
+            if (s==y && i>=x-1) {
+                return 1;
             }
         }
         return 0;
