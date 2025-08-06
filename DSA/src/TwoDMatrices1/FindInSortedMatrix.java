@@ -9,22 +9,23 @@ package TwoDMatrices1;
 public class FindInSortedMatrix {
     public static void main(String[] args) {
         int[][] A = {{1, 5, 6},{4, 8, 11},{7, 9, 14}};
-        int B = 8;
+        int B = 14;
         System.out.println(solve(A, B));
     }
     static int solve(int[][] arr, int x) {
+        int r = arr.length;;
         int c = arr[0].length;
+        int i=0,j=c-1;
 
-        for (int[] ints : arr) {
-            if (ints[c - 1] >= x) {
-                int j = c - 1;
-                while (j >= 0) {
-                    if (ints[j] == x)
-                        return 1;
-                    j--;
-                }
-            }
+        while (i<r && j>=0) {
+            if (arr[i][j] == x)
+                return 1;
+            if (arr[i][j] >= x) {
+                j--;
+            } else
+                i++;
         }
+
         return 0;
     }
 }
