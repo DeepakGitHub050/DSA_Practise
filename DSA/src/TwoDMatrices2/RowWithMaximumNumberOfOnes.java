@@ -20,19 +20,14 @@ public class RowWithMaximumNumberOfOnes {
     }
     static int solve(int[][] A) {
         int n = A.length;
-        int ans = 0;
-        int index = 0;
-        for (int i=0; i<n; i++) {
-            int c =0;
-            for (int j=0; j<n; j++) {
-                if (A[i][j]==1)
-                    c++;
-            }
-            if (c > ans) {
-                ans = Math.max(ans, c);
-                index = i;
+        int ans = 0, i, j;
+        for (i = 0, j = n - 1; i < n && j >= 0; i++){
+            // since this is sorted so we can travel right to left
+            while(A[i][j] == 1){
+                ans = i;
+                j--;
             }
         }
-        return index;
+        return ans;
     }
 }
