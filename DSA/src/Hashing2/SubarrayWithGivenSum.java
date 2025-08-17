@@ -1,6 +1,7 @@
 package Hashing2;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 /**
  * Given an array of positive integers A and an integer B, find and return first continuous subarray which adds to B.
@@ -18,33 +19,25 @@ import java.util.Arrays;
  */
 public class SubarrayWithGivenSum {
     public static void main(String[] args) {
-        int[] A = {1, 2, 3, 4, 5};
-        int B = 45;
+        int[] A = {0, 2, 3, 2, 1,2};
+        int B = 6;
         System.out.println(Arrays.toString(solve(A, B)));
     }
     static int[] solve(int[] A, int B) {
-        int i=0, j=0;
+        int[] res = {-1};
         int l = A.length;
-        int[] res = new int[l];
-        while (i<l) {
-            int s = 0;
-            j=i;
-            while (j<l) {
-                s += A[j];
-                if (s == B) {
-                    break;
-                }
-                j++;
-            }
-            if (j<l)
+        HashMap<Integer, Integer> sumMap = new HashMap<>();
+        int s = 0;
+        for (int i = 0; i < l; i++) {
+            s += A[i];
+            if (s == B) {
+                res = Arrays.copyOfRange(A, 0, i + 1);
                 break;
-            i++;
-        }
-        if (i<l) {
-            while (i<=j){
-                res[i] = A[i];
-                i++;
-            }
+            } else if (sumMap.containsKey(s - B)) {
+                res = Arrays.copyOfRange(A, sumMap.get(s - B) + 1, i + 1);
+                break;
+            } else
+                sumMap.put(A[i], 1);
         }
         return res;
     }
