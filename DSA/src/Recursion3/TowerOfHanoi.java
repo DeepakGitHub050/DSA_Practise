@@ -48,6 +48,7 @@ public class TowerOfHanoi {
             return;
         }
         // move the A-1 disks from start to buffer, using end as a buffer
+        // 1 + 2 + 3 = 6, so 6 minus any two tower numbers will always give us the third tower number.
         rec(A-1, start, 6-start-end);
         ans[curr++] = new int[]{A, start, end};
         // move the A-1 disks from buffer to end, using start as a buffer
