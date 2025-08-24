@@ -2,6 +2,7 @@ package Sorting2;
 
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.PriorityQueue;
 
 /**
  * Problem Description
@@ -32,14 +33,14 @@ public class BClosestPointsToOrigin {
     }
     static int[][] solve(int[][] A, int B) {
         int[][] res = new int[B][2];
-        Arrays.sort(A, (p1, p2) -> {
-            int d1 = p1[0]*p1[0]+p1[1]*p1[1];
-            int d2 = p2[0]*p2[0]+p2[1]*p2[1];
-            return Integer.compare(d1, d2);
-        });
-        for (int i=0; i<B; i++){
-            res[i][0] = A[i][0];
-            res[i][1] = A[i][1];
+        PriorityQueue<int[]> pq = new PriorityQueue<>((p,q) -> q[0]*q[0] - q[1]*q[1] - p[0]*p[0] - p[1]*p[1]);
+        for(int[] i : A) {
+            pq.offer(i);
+            if (pq.size() > B)
+                pq.poll();
+        }
+        while (B>0){
+            res[--B] = pq.poll();
         }
         return res;
     }
