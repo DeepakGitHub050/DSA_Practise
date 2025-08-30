@@ -23,9 +23,19 @@ public class SingleElementInSortedArray {
         System.out.println(solve(A));
     }
     static int solve(int[] A) {
-        int ans=A[0];
-        for (int i=1; i<A.length; i++) {
-            ans = ans^A[i];
+        int n=A.length,l=0, r=n-1,mid,ans=0;
+        while (l<=r) {
+            mid = (l+r)/2;
+            if (mid == n-1)
+                return A[mid];
+            if (A[mid] == A[mid+1])
+                mid++;
+            if (mid%2==1)
+                l = mid +1;
+            else {
+                ans = A[mid];
+                r = mid-1;
+            }
         }
         return ans;
     }
