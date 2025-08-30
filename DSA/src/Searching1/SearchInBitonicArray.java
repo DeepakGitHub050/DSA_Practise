@@ -27,40 +27,72 @@ public class SearchInBitonicArray {
         int B = 9;
         System.out.println(solve(A, B));
     }
-    static int solve(int[] A, int B) {
-        int mid = findPeak(A);
-        if (A[mid] == B)
-            return  mid;
-        if (B > A[mid])
-            return -1;
-        int ans = search(A, 0, mid, B);
-        if (ans == -1) {
-            return search(A, mid+1, A.length, B);
-        } else
-            return ans;
-    }
-    static int findPeak(int[] arr) {
-        int m = arr[0], ind=0;
-
-        for (int i=0; i< arr.length; i++) {
-            if (arr[i] > m) {
-                m = arr[i];
-                ind = i;
-            }
-        }
-        return ind;
-    }
-    static int search(int[] A,int l, int r ,int B) {
-        int mid;
-        while (l<r) {
-            mid = (l+r)/2;
-            if (A[mid] == B)
+    // Function for binary search in ascending part
+    static int ascendingBinarySearch(int[] arr, int low, int high, int key) {
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (arr[mid] == key)
                 return mid;
-            if (A[mid] > B)
-                r = mid -1;
+            if (arr[mid] > key)
+                high = mid - 1;
             else
-                l = mid+1;
+                low = mid + 1;
         }
         return -1;
+    }
+
+    // Function for binary search in descending part of array
+    static int descendingBinarySearch(int[] arr, int low, int high, int key) {
+        while (low <= high) {
+            int mid = low + (high - low) / 2;
+            if (arr[mid] == key)
+                return mid;
+            if (arr[mid] < key)
+                high = mid - 1;
+            else
+                low = mid + 1;
+        }
+        return -1;
+    }
+
+    // finding bitonic point
+    static int findBitonicPoint(int[] arr, int n, int l, int r) {
+        int mid;
+        mid = (r + l) / 2;
+        if (arr[mid] > arr[mid - 1] && arr[mid] > arr[mid + 1]) {
+            return mid;
+        } else if (arr[mid] > arr[mid - 1] && arr[mid] < arr[mid + 1]) {
+            return findBitonicPoint(arr, n, mid, r);
+        } else if (arr[mid] < arr[mid - 1] && arr[mid] > arr[mid + 1]) {
+            return findBitonicPoint(arr, n, l, mid);
+        }
+        return -1;
+    }
+
+    // Function to search key in bitonic array
+    static int searchBitonic(int[] arr, int n, int key, int index) {
+        if (key > arr[index])
+            return -1;
+        else if (key == arr[index])
+            return index;
+        else {
+            int temp = ascendingBinarySearch(arr, 0, index - 1, key);
+            if (temp != -1) {
+                return temp;
+            }
+
+            // Search in right of k
+            return descendingBinarySearch(arr, index + 1, n - 1, key);
+        }
+    }
+
+    static int solveQ(int[] arr, int b) {
+        int index = findBitonicPoint(arr, arr.length, 0, arr.length - 1);
+        int x = searchBitonic(arr, arr.length, b, index);
+        return x;
+    }
+
+    static int solve(int[] A, int B) {
+        return solveQ(A, B);
     }
 }
