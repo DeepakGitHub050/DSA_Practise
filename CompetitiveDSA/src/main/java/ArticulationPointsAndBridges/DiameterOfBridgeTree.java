@@ -17,11 +17,11 @@ import java.util.*;
  *
  * Problem Constraints
  * 1 <= A <= 3*10^5
- * A-1 <= M <= 3*105
+ * A-1 <= M <= 3*10^5
  *
  * Input Format
  * The first argument given is an integer A representing the number of nodes in the graph.
- * The second argument given is an matrix B of size M x 2 which represents the M edges such that there is a edge between node B[i][0] and node B[i][1].
+ * The second argument given is a matrix B of size M x 2 which represents the M edges such that there is a edge between node B[i][0] and node B[i][1].
  *
  * Output Format
  * Return a single integer denoting the diameter of the resultant tree.
